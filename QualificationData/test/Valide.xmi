@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<qualificationData:SerieTemporelle
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:qualificationData="http://www.example.org/qualificationData"
+    xsi:schemaLocation="http://www.example.org/qualificationData ../model/qualificationData.ecore"
+    id="ST1">
+  <mesure serie="/" valeur="10"
+      timestamp="2025-03-13T10:00:00.000+0100">
+    <qualification
+        xsi:type="qualificationData:AutoQualification"
+        qualitycode="2"
+        algo="SpikeTest"/>
+  </mesure>
+  <mesure serie="/" valeur="15"
+      timestamp="2025-03-13T11:00:00.000+0100">
+    <qualification
+        xsi:type="qualificationData:ManuelleQualification"
+        qualitycode="3"
+        commentaire="Donnée validée"/>
+  </mesure>
+</qualificationData:SerieTemporelle>
+

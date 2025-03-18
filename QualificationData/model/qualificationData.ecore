@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="qualificationData" nsURI="http://www.example.org/qualificationData"
+    nsPrefix="qualificationData">
+  <eAnnotations source="http://www.eclipse.org/OCL/Import">
+    <details key="ecore" value="http://www.eclipse.org/emf/2002/Ecore"/>
+  </eAnnotations>
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="invocationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="settingDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+    <details key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="ElementQualifiable" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SerieTemporelle" eSuperTypes="#//ElementQualifiable">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="mesuresPositives auMoinsUneQualification qualityCodeCorrect auMoinsUneMesureValide"/>
+    </eAnnotations>
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot">
+      <details key="mesuresPositives" value="self.mesure->select(m : Mesure | m.valeur &lt; 0)->isEmpty()"/>
+      <details key="auMoinsUneQualification" value="self.mesure->exists(m : Mesure | m.qualification &lt;> null)"/>
+      <details key="qualityCodeCorrect" value="self.mesure->collect(m : Mesure | m.qualification)->select(q : Qualification | q.oclIsKindOf(AutoQualification))->forAll(q : Qualification | q.qualitycode > 1)"/>
+      <details key="auMoinsUneMesureValide" value="self.mesure->exists(m: Mesure |&#xA;        m.valeur >= 0 and (m.qualification.oclIsKindOf(AutoQualification) implies m.qualification.qualitycode > 1) and&#xA;        (m.qualification.oclIsKindOf(ManuelleQualification) implies m.qualification.qualitycode > 0))"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mesure" upperBound="-1"
+        eType="#//Mesure" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mesure">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="serie" lowerBound="1" eType="#//SerieTemporelle"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valeur" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qualification" eType="#//Qualification"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Qualification" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="qualitycode" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AutoQualification" eSuperTypes="#//Qualification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="algo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManuelleQualification" eSuperTypes="#//Qualification">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="commentaire" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>
