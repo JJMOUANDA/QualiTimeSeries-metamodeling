@@ -1,0 +1,2 @@
+            Mesure : 10 | Date : Thu Mar 13 10:00:00 GMT+01:00 2025 | S?rie : ST1
+            Mesure : 15 | Date : Thu Mar 13 11:00:00 GMT+01:00 2025 | S?rie : ST1

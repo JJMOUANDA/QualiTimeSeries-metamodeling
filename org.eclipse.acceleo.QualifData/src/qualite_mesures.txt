@@ -1,0 +1,2 @@
+                AutoQualification : 2 
+                ManuelleQualification : 3 

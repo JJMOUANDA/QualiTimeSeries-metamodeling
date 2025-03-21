@@ -4,6 +4,7 @@
     <semanticResources>qualificationData.ecore</semanticResources>
     <semanticResources>../test/Invalide.xmi</semanticResources>
     <semanticResources>qualificationData.genmodel</semanticResources>
+    <semanticResources>../My.qualificationdata</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_JatUIAAPEfC3Gfn-4BSwKQ">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']"/>
       <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_JfBMYAAPEfC3Gfn-4BSwKQ" name="qualificationData" repPath="#_JdSHAAAPEfC3Gfn-4BSwKQ" changeId="600b9667-d9bd-48bc-8a60-15978a18fe3d">

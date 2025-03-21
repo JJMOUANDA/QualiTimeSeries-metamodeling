@@ -1,2 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<qualificationData:SerieTemporelle xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:qualificationData="http://www.example.org/qualificationData"/>
+ST1 { 10 "2025-12-12" qualifié Automatique QC=2 Algo "AlgoX"  
+  12 "2025-12-13" qualifié Manuel QC=1 Valide
+  14 "2025-12-14" // Pas de qualification
+}

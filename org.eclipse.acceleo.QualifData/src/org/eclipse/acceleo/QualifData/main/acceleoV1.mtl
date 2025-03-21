@@ -1,0 +1,116 @@
+[comment encoding = UTF-8 /]
+[module acceleoV1('http://www.example.org/qualificationData')]
+
+[template public generateElement(aSerieTemporelle : SerieTemporelle)]
+[comment @main /]
+
+[file ('style.css', false, 'UTF-8')]
+body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
+h1 { color: #333; }
+button { padding: 10px; margin: 5px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+button:hover { background-color: #0056b3; }
+.container { width: 80%; margin: auto; padding: 20px; }
+.list-container { text-align: left; display: inline-block; }
+.error { background-color: #ffebee; color: red; }
+.series { background-color: #eef; }
+.measurements { background-color: #fcf8e3; }
+.quality { background-color: #e8f5e9; }
+[/file]
+
+[file ('series_report.html', false)]
+<html>
+<head>
+    <title>Series Temporelles</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="series">
+    <div class="container">
+        <h1>Serie Temporelle : [aSerieTemporelle.id/]</h1>
+        <button onclick="window.location.href='index.html'"> Retour</button>
+    </div>
+</body>
+</html>
+[/file]
+
+[file ('mesures_report.html', false)]
+<html>
+<head>
+    <title>Mesures</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="measurements">
+    <div class="container">
+        <h1>Mesures de la Serie [aSerieTemporelle.id/]</h1>
+        <ul class="list-container">
+            [for (m : Mesure | aSerieTemporelle.mesure)]
+                <li>Valeur : [m.valeur/] | Date : [m.timestamp/]</li>
+            [/for]
+        </ul>
+        <button onclick="window.location.href='index.html'"> Retour</button>
+    </div>
+</body>
+</html>
+[/file]
+
+[file ('qualite_mesures.html', false)]
+<html>
+<head>
+    <title>Qualite des Mesures</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="quality">
+    <div class="container">
+        <h1>Qualite des Mesures</h1>
+        <ul class="list-container">
+            [for (m : Mesure | aSerieTemporelle.mesure)]
+                [if (m.qualification.oclIsTypeOf(AutoQualification))]
+                    <li> Auto : Code qualite [m.qualification.qualitycode/]</li>
+                [/if]
+                [if (m.qualification.oclIsTypeOf(ManuelleQualification))]
+                    <li> Manuelle : Code qualitite [m.qualification.qualitycode/]</li>
+                [/if]
+            [/for]
+        </ul>
+        <button onclick="window.location.href='index.html'"> Retour</button>
+    </div>
+</body>
+</html>
+[/file]
+
+[file ('erreurs_report.html', false)]
+<html>
+<head>
+    <title>Rapport d'Erreurs</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body class="error">
+    <div class="container">
+        <h1> Erreurs Detectees</h1>
+        <ul class="list-container">
+            [if (aSerieTemporelle.mesure->exists(m | m.valeur.oclIsUndefined() or m.serie.oclIsUndefined()))]
+                [for (m : Mesure | aSerieTemporelle.mesure)]
+                    [if (m.valeur.oclIsUndefined())]
+                        <li> ERREUR : La mesure avec timestamp [m.timestamp/] n'a pas de valeur.</li>
+                    [/if]
+                    [if (m.serie.oclIsUndefined())]
+                        <li> ERREUR : Une mesure n'est pas associée à une série temporelle !</li>
+                    [/if]
+                [/for]
+            [else]
+                <li>Aucune erreur detectee.</li>
+            [/if]
+        </ul>
+        <button onclick="window.location.href='index.html'"> Retour</button>
+    </div>
+</body>
+</html>
+[/file]
+
+[file ('export.csv', false)]
+"Valeur";"Date";"Série";"Qualité"
+[for (m : Mesure | aSerieTemporelle.mesure)]
+    "[m.valeur/]";"[m.timestamp/]";"[m.serie.id/]";"[if (m.qualification.oclIsUndefined())]Non qualifie[else][m.qualification.qualitycode/][/if]"
+[/for]
+[/file]
+
+[/template]
